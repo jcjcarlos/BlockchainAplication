@@ -1,0 +1,472 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2'
+
+networks:
+  byfn:
+
+services:
+
+  couchdb4:
+    container_name: couchdb4        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "9984:5984"
+    networks:
+    - byfn
+
+  peer2.org2.example.com:
+    container_name: peer2.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer2.org2.example.com
+    - CORE_PEER_ADDRESS=peer2.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer2.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer2.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 11051:7051
+    - 11053:7053    
+    depends_on:
+    - couchdb4
+    networks:
+    - byfn
+    
+    
+  couchdb5:
+    container_name: couchdb5        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "10984:5984"
+    networks:
+    - byfn
+
+  peer3.org2.example.com:
+    container_name: peer3.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer3.org2.example.com
+    - CORE_PEER_ADDRESS=peer3.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer3.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer3.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 12051:7051
+    - 12053:7053    
+    depends_on:
+    - couchdb5
+    networks:
+    - byfn
+    
+    
+  couchdb6:
+    container_name: couchdb6        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "11984:5984"
+    networks:
+    - byfn
+
+  peer4.org2.example.com:
+    container_name: peer4.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer4.org2.example.com
+    - CORE_PEER_ADDRESS=peer4.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer4.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer4.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer4.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 13051:7051
+    - 13053:7053    
+    depends_on:
+    - couchdb6
+    networks:
+    - byfn
+    
+    
+  couchdb7:
+    container_name: couchdb7        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "12984:5984"
+    networks:
+    - byfn
+
+  peer5.org2.example.com:
+    container_name: peer5.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer5.org2.example.com
+    - CORE_PEER_ADDRESS=peer5.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer5.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer5.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer5.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 14051:7051
+    - 14053:7053    
+    depends_on:
+    - couchdb7
+    networks:
+    - byfn
+    
+    
+  couchdb8:
+    container_name: couchdb8        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "13984:5984"
+    networks:
+    - byfn
+
+  peer6.org2.example.com:
+    container_name: peer6.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer6.org2.example.com
+    - CORE_PEER_ADDRESS=peer6.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer6.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer6.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer6.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 15051:7051
+    - 15053:7053    
+    depends_on:
+    - couchdb8
+    networks:
+    - byfn
+    
+    
+  couchdb9:
+    container_name: couchdb9        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "14984:5984"
+    networks:
+    - byfn
+
+  peer7.org2.example.com:
+    container_name: peer7.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer7.org2.example.com
+    - CORE_PEER_ADDRESS=peer7.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer7.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer7.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer7.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 16051:7051
+    - 16053:7053    
+    depends_on:
+    - couchdb9
+    networks:
+    - byfn
+    
+    
+  couchdb10:
+    container_name: couchdb10        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "15984:5984"
+    networks:
+    - byfn
+
+  peer8.org2.example.com:
+    container_name: peer8.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer8.org2.example.com
+    - CORE_PEER_ADDRESS=peer8.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer8.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer8.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer8.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 17051:7051
+    - 17053:7053    
+    depends_on:
+    - couchdb10
+    networks:
+    - byfn
+    
+    
+  couchdb11:
+    container_name: couchdb11        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "16984:5984"
+    networks:
+    - byfn
+
+  peer9.org2.example.com:
+    container_name: peer9.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer9.org2.example.com
+    - CORE_PEER_ADDRESS=peer9.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer9.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer9.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer9.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 18051:7051
+    - 18053:7053    
+    depends_on:
+    - couchdb11
+    networks:
+    - byfn
+    
+    
+  couchdb12:
+    container_name: couchdb12        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "17984:5984"
+    networks:
+    - byfn
+
+  peer10.org2.example.com:
+    container_name: peer10.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer10.org2.example.com
+    - CORE_PEER_ADDRESS=peer10.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer10.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer10.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer10.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 19051:7051
+    - 19053:7053    
+    depends_on:
+    - couchdb12
+    networks:
+    - byfn
+    
+    
+  couchdb13:
+    container_name: couchdb13        
+    image: hyperledger/fabric-couchdb
+    # Populate the COUCHDB_USER and COUCHDB_PASSWORD to set an admin user and password
+    # for CouchDB.  This will prevent CouchDB from operating in an "Admin Party" mode.
+    environment:
+    - COUCHDB_USER=
+    - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+    - "18984:5984"
+    networks:
+    - byfn
+
+  peer11.org2.example.com:
+    container_name: peer11.org2.example.com
+    extends:
+      file: base/peer-base.yaml
+      service: peer-base
+    environment:
+    - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=couchdb4:5984
+    # The CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME and CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD
+    # provide the credentials for ledger to connect to CouchDB.  The username and password must
+    # match the username and password set for the associated CouchDB.
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+    - CORE_LEDGER_STATE_COUCHDBCONFIG_PASSWORD=
+    - CORE_PEER_ID=peer11.org2.example.com
+    - CORE_PEER_ADDRESS=peer11.org2.example.com:7051
+    - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer11.org2.example.com:7051
+    - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.org2.example.com:7051
+    - CORE_PEER_LOCALMSPID=Org2MSP
+    volumes:
+    - /var/run/:/host/var/run/
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer11.org2.example.com/msp:/etc/hyperledger/fabric/msp
+    - ./crypto-config/peerOrganizations/org2.example.com/peers/peer11.org2.example.com/tls:/etc/hyperledger/fabric/tls
+    ports:
+    - 20051:7051
+    - 20053:7053    
+    depends_on:
+    - couchdb13
+    networks:
+    - byfn
+    
+    
