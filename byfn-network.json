@@ -7,23 +7,23 @@
             "orderers": [
                 "orderer.example.com"
             ],
-            "futebols": {
-                "futebol0.org1.example.com": {
+            "peers": {
+                "peer0.org1.example.com": {
                     "endorsingPeer": true,
                     "chaincodeQuery": true,
                     "eventSource": true
                 },
-                "futebol1.org1.example.com": {
+                "peer1.org1.example.com": {
                     "endorsingPeer": true,
                     "chaincodeQuery": true,
                     "eventSource": true
                 },
-                "futebol0.org2.example.com": {
+                "peer0.org2.example.com": {
                     "endorsingPeer": true,
                     "chaincodeQuery": true,
                     "eventSource": true
                 },
-                "futebol1.org2.example.com": {
+                "peer1.org2.example.com": {
                     "endorsingPeer": true,
                     "chaincodeQuery": true,
                     "eventSource": true
@@ -34,9 +34,9 @@
     "organizations": {
         "Org1": {
             "mspid": "Org1MSP",
-            "futebols": [
-                "futebol0.org1.example.com",
-                "futebol1.org1.example.com"
+            "peers": [
+                "peer0.org1.example.com",
+                "peer1.org1.example.com"
             ],
             "certificateAuthorities": [
                 "ca.org1.example.com"
@@ -44,9 +44,9 @@
         },
         "Org2": {
             "mspid": "Org2MSP",
-            "futebols": [
-                "futebol0.org2.example.com",
-                "futebol1.org2.example.com"
+            "peers": [
+                "peer0.org2.example.com",
+                "peer1.org2.example.com"
             ],
             "certificateAuthorities": [
                 "ca.org2.example.com"
@@ -64,38 +64,38 @@
             }
         }
     },
-    "futebols": {
-        "futebol0.org1.example.com": {
+    "peers": {
+        "peer0.org1.example.com": {
             "url": "grpcs://localhost:7051",
             "grpcOptions": {
-                "ssl-target-name-override": "futebol0.org1.example.com"
+                "ssl-target-name-override": "peer0.org1.example.com"
             },
             "tlsCACerts": {
                 "pem": "INSERT_ORG1_CA_CERT"
             }
         },
-        "futebol1.org1.example.com": {
+        "peer1.org1.example.com": {
             "url": "grpcs://localhost:8051",
             "grpcOptions": {
-                "ssl-target-name-override": "futebol1.org1.example.com"
+                "ssl-target-name-override": "peer1.org1.example.com"
             },
             "tlsCACerts": {
                 "pem": "INSERT_ORG1_CA_CERT"
             }
         },
-        "futebol0.org2.example.com": {
+        "peer0.org2.example.com": {
             "url": "grpcs://localhost:9051",
             "grpcOptions": {
-                "ssl-target-name-override": "futebol0.org2.example.com"
+                "ssl-target-name-override": "peer0.org2.example.com"
             },
             "tlsCACerts": {
                 "pem": "INSERT_ORG2_CA_CERT"
             }
         },
-        "futebol1.org2.example.com": {
+        "peer1.org2.example.com": {
             "url": "grpcs://localhost:10051",
             "grpcOptions": {
-                "ssl-target-name-override": "futebol1.org2.example.com"
+                "ssl-target-name-override": "peer1.org2.example.com"
             },
             "tlsCACerts": {
                 "pem": "INSERT_ORG2_CA_CERT"
