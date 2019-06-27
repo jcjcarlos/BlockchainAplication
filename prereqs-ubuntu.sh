@@ -45,12 +45,15 @@ fi
 
 # Update package lists
 echo "# Updating package lists"
-sudo apt-add-repository -y ppa:git-core/ppa
+#sudo apt-add-repository -y ppa:git-core/ppa
 sudo apt-get update
 
 # Install Git
 echo "# Installing Git"
 sudo apt-get install -y git
+
+# Install Curl
+sudo apt-get install -y curl
 
 # Install nvm dependencies
 echo "# Installing nvm dependencies"
